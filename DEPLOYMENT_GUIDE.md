@@ -25,7 +25,7 @@ Dans votre dashboard Railway (https://railway.app/dashboard):
 
 1. **Créez un nouveau projet**
 2. **Connectez votre repo GitHub**
-3. **Sélectionnez le dossier `server`**
+3. **Sélectionnez le dossier `server`** comme Root Directory
 4. **Ajoutez une base de données PostgreSQL**
 5. **Configurez ces variables d'environnement**:
 
@@ -43,6 +43,10 @@ Dans votre dashboard Railway (https://railway.app/dashboard):
    NODE_ENV=production
    PORT=5000
    ```
+
+6. **Redéployez** après avoir pushé les corrections Dockerfile
+
+> 💡 **Note importante** : Le Dockerfile a été corrigé pour inclure les types TypeScript pendant la compilation, résolvant les erreurs de build.
 
 ### 3. Commandes de Déploiement 
 
