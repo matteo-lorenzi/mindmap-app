@@ -24,13 +24,14 @@ FROM node:18-alpine AS production
 
 WORKDIR /app
 
-# Copy package files and install ONLY production dependencies, then generate Prisma
+# Copy package files and install ONLY production dependencies
 COPY package*.json ./
-RUN npm ci --only=production && npx prisma generate
+RUN npm ci --only=production
 
-# Copy built application from build stage
+# Copy built application and Prisma files from build stage
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/prisma ./prisma
+COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
 
 # Create non-root user and change ownership
 RUN addgroup -g 1001 -S nodejs \
