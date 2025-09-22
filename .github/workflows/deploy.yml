@@ -1,0 +1,76 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # Test the application
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install dependencies - Client
+        run: |
+          cd client
+          npm ci
+
+      - name: Install dependencies - Server
+        run: |
+          cd server
+          npm ci
+
+      - name: Run linting - Client
+        run: |
+          cd client
+          npm run lint
+
+      - name: Build - Client
+        run: |
+          cd client
+          npm run build
+
+      - name: Build - Server
+        run: |
+          cd server
+          npm run build
+
+  # Deploy frontend to Vercel
+  deploy-frontend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./client
+
+  # Deploy backend to Railway
+  deploy-backend:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Railway
+        uses: bervProject/railway-deploy@v1.0.0
+        with:
+          railway_token: ${{ secrets.RAILWAY_TOKEN }}
+          service: "mindmap-api"
+          directory: "./server"

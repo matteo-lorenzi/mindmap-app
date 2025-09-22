@@ -57,6 +57,13 @@
     - [Available Scripts](#available-scripts)
     - [Environment Variables](#environment-variables)
   - [📁 Project Structure](#-project-structure)
+  - [🌐 Deployment](#-deployment)
+    - [🚀 Quick Deploy Options](#-quick-deploy-options)
+      - [**Option 1: Frontend Only (GitHub Pages)**](#option-1-frontend-only-github-pages)
+      - [**Option 2: Full-Stack Deployment (Recommended)**](#option-2-full-stack-deployment-recommended)
+      - [**Option 3: Docker Deployment**](#option-3-docker-deployment)
+    - [🔧 Environment Setup for Production](#-environment-setup-for-production)
+    - [📊 Live Demo](#-live-demo)
   - [🤝 Contributing](#-contributing)
     - [Development Guidelines](#development-guidelines)
   - [📄 License](#-license)
@@ -304,6 +311,86 @@ mindmap-app/
 ├── 📄 PROJECT_PLAN.md
 └── 📄 DEVELOPMENT_LOG.md
 ```
+
+---
+
+## 🌐 Deployment
+
+### 🚀 Quick Deploy Options
+
+#### **Option 1: Frontend Only (GitHub Pages)**
+Deploy just the frontend as a static site:
+
+```bash
+# Build the client
+cd client
+npm run build
+
+# Deploy to GitHub Pages
+npm install -g gh-pages
+gh-pages -d dist
+```
+
+**Note**: This only deploys the frontend. You'll need a separate backend hosting solution.
+
+#### **Option 2: Full-Stack Deployment (Recommended)**
+
+**Frontend**: Deploy on **Vercel** or **Netlify**
+```bash
+# Vercel
+npm install -g vercel
+cd client
+vercel --prod
+
+# Netlify
+npm install -g netlify-cli
+cd client
+npm run build
+netlify deploy --prod --dir=dist
+```
+
+**Backend**: Deploy on **Railway**, **Render**, or **Heroku**
+```bash
+# Railway (recommended)
+npm install -g @railway/cli
+railway login
+railway init
+railway up
+
+# Or use Render/Heroku following their documentation
+```
+
+#### **Option 3: Docker Deployment**
+```bash
+# Build and run with Docker
+docker-compose up --build
+
+# Deploy to any Docker-compatible platform
+# (DigitalOcean, AWS, Google Cloud, etc.)
+```
+
+### 🔧 Environment Setup for Production
+
+1. **Create production environment variables**:
+```env
+# Production .env
+NODE_ENV=production
+DATABASE_URL="your-production-database-url"
+JWT_SECRET="your-strong-production-secret"
+CLIENT_URL="https://your-frontend-domain.com"
+PORT=5000
+```
+
+2. **Update CORS settings** for production domains
+3. **Setup SSL certificates** (usually handled by hosting providers)
+4. **Configure database** (PostgreSQL recommended for production)
+
+### 📊 Live Demo
+
+🔗 **Frontend**: [https://mindmap-app-eosin.vercel.app](https://mindmap-app-eosin.vercel.app)  
+🔗 **API**: [https://[votre-railway-app].railway.app](https://[votre-railway-app].railway.app)
+
+> 💡 **Note**: Remplacez `[votre-railway-app]` par l'URL de votre application Railway une fois déployée.
 
 ---
 

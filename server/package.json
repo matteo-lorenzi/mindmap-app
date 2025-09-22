@@ -8,8 +8,10 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
+    "start:railway": "npm run build && npm run db:migrate:deploy && npm start",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
+    "db:migrate:deploy": "prisma migrate deploy",
     "db:push": "prisma db push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

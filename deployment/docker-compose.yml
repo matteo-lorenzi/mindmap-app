@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  # Frontend (React)
+  client:
+    build:
+      context: ../client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    depends_on:
+      - server
+
+  # Backend (Express)
+  server:
+    build:
+      context: ../server
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:./dev.db
+      - JWT_SECRET=your-production-secret
+      - CLIENT_URL=http://localhost:3000
+    volumes:
+      - ../server/prisma:/app/prisma
+      - server_data:/app/data
+
+  # Database (PostgreSQL for production)
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=mindmap
+      - POSTGRES_USER=mindmap_user
+      - POSTGRES_PASSWORD=mindmap_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
+  server_data:
