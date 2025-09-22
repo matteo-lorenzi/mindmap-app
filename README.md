@@ -388,9 +388,9 @@ PORT=5000
 ### 📊 Live Demo
 
 🔗 **Frontend**: [https://mindmap-app-eosin.vercel.app](https://mindmap-app-eosin.vercel.app)  
-🔗 **API**: [https://[votre-railway-app].railway.app](https://[votre-railway-app].railway.app)
+🔗 **API**: [https://mindmap-app-production-ebf3.up.railway.app](https://mindmap-app-production-ebf3.up.railway.app)
 
-> 💡 **Note**: Remplacez `[votre-railway-app]` par l'URL de votre application Railway une fois déployée.
+> ✅ **Application en ligne !** Frontend et Backend déployés et connectés.
 
 ---
 

@@ -2,8 +2,8 @@
 
 ## 📋 Vos Domaines
 - **Frontend Vercel**: `mindmap-app-eosin.vercel.app`
+- **Backend Railway**: `mindmap-app-production-ebf3.up.railway.app`
 - **Deployment**: `mindmap-mpi22af87-matteos-projects-aec0e9b8.vercel.app`
-- **Backend Railway**: `[À configurer]`
 
 ## 🔧 Configuration Étape par Étape
 
@@ -16,7 +16,7 @@ Dans votre dashboard Vercel (https://vercel.com/dashboard):
 3. **Ajoutez ces variables**:
    ```
    Name: VITE_API_URL
-   Value: https://[votre-app-railway].railway.app
+   Value: https://mindmap-app-production-ebf3.up.railway.app
    ```
 
 ### 2. Configuration Railway (Backend) 🚄
