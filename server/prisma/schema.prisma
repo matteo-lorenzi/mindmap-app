@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id             String          @id @default(cuid())
+  email          String          @unique
+  password       String
+  name           String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  collaborations Collaboration[]
+  mindmaps       Mindmap[]
+
+  @@map("users")
+}
+
+model Mindmap {
+  id             String          @id @default(cuid())
+  title          String
+  description    String?
+  isPublic       Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  userId         String
+  collaborations Collaboration[]
+  connections    Connection[]
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  nodes          Node[]
+
+  @@map("mindmaps")
+}
+
+model Node {
+  id              String       @id @default(cuid())
+  text            String
+  x               Float
+  y               Float
+  width           Float        @default(150)
+  height          Float        @default(50)
+  color           String       @default("#3b82f6")
+  fontSize        Int          @default(14)
+  shape           String       @default("rectangle")
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  mindmapId       String
+  connectionsTo   Connection[] @relation("ConnectionTo")
+  connectionsFrom Connection[] @relation("ConnectionFrom")
+  mindmap         Mindmap      @relation(fields: [mindmapId], references: [id], onDelete: Cascade)
+
+  @@map("nodes")
+}
+
+model Connection {
+  id         String   @id @default(cuid())
+  label      String?
+  style      String   @default("solid")
+  color      String   @default("#6b7280")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  mindmapId  String
+  fromNodeId String
+  toNodeId   String
+  toNode     Node     @relation("ConnectionTo", fields: [toNodeId], references: [id], onDelete: Cascade)
+  fromNode   Node     @relation("ConnectionFrom", fields: [fromNodeId], references: [id], onDelete: Cascade)
+  mindmap    Mindmap  @relation(fields: [mindmapId], references: [id], onDelete: Cascade)
+
+  @@map("connections")
+}
+
+model Collaboration {
+  id        String   @id @default(cuid())
+  role      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  mindmapId String
+  mindmap   Mindmap  @relation(fields: [mindmapId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, mindmapId])
+  @@map("collaborations")
+}
